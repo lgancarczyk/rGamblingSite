@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace gamblingSite.Models
 {
-    public class AppDBContext : IdentityDbContext
+    public class AppDBContext : IdentityDbContext<ApplicationUser>
     {
         private readonly DbContextOptions _options;
 

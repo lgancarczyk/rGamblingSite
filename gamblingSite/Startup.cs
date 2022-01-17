@@ -30,7 +30,7 @@ namespace gamblingSite
             string connectionString = Configuration.GetConnectionString("default");                              //added
             services.AddDbContext<AppDBContext>(c => c.UseSqlServer(connectionString));                          //added
 
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();         //added
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();         //added
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
