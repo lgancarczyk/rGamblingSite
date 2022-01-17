@@ -12,6 +12,7 @@ namespace gamblingSite.Models
         public int SpinID { get; set; }
         public string Colour { get; set; }
         public DateTime SpinDate { get; set; }
+        //public ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public ICollection<ApplicationUserRouletteModel> ApplicationUserRouletteModels { get; set; }
     }
 }

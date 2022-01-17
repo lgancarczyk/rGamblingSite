@@ -3,21 +3,38 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using gamblingSite.Models;
 
 namespace gamblingSite.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220117221832_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("ApplicationUserRouletteModel", b =>
+                {
+                    b.Property<string>("ApplicationUsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("RouletteModelsSpinID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ApplicationUsersId", "RouletteModelsSpinID");
+
+                    b.HasIndex("RouletteModelsSpinID");
+
+                    b.ToTable("ApplicationUserRouletteModel");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -218,27 +235,6 @@ namespace gamblingSite.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("gamblingSite.Models.ApplicationUserRouletteModel", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("SpinId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Colour")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Stake")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("UserId", "SpinId");
-
-                    b.HasIndex("SpinId");
-
-                    b.ToTable("ApplicationUserRouletteModels");
-                });
-
             modelBuilder.Entity("gamblingSite.Models.RouletteModel", b =>
                 {
                     b.Property<int>("SpinID")
@@ -254,7 +250,22 @@ namespace gamblingSite.Migrations
 
                     b.HasKey("SpinID");
 
-                    b.ToTable("RouletteModels");
+                    b.ToTable("RouletteModel");
+                });
+
+            modelBuilder.Entity("ApplicationUserRouletteModel", b =>
+                {
+                    b.HasOne("gamblingSite.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("ApplicationUsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("gamblingSite.Models.RouletteModel", null)
+                        .WithMany()
+                        .HasForeignKey("RouletteModelsSpinID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -306,35 +317,6 @@ namespace gamblingSite.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("gamblingSite.Models.ApplicationUserRouletteModel", b =>
-                {
-                    b.HasOne("gamblingSite.Models.RouletteModel", "RouletteModel")
-                        .WithMany("ApplicationUserRouletteModels")
-                        .HasForeignKey("SpinId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("gamblingSite.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("ApplicationUserRouletteModels")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("RouletteModel");
-                });
-
-            modelBuilder.Entity("gamblingSite.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("ApplicationUserRouletteModels");
-                });
-
-            modelBuilder.Entity("gamblingSite.Models.RouletteModel", b =>
-                {
-                    b.Navigation("ApplicationUserRouletteModels");
                 });
 #pragma warning restore 612, 618
         }

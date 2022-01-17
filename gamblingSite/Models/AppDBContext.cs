@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace gamblingSite.Models
 {
-    public class AppDBContext : DbContext
+    public class AppDBContext : IdentityDbContext<ApplicationUser>
     {
-        public AppDBContext(DbContextOptions<AppDBContext> options) : 
-            base(options)
-        {
-        }
+        private readonly DbContextOptions _options;
+
+        public AppDBContext(DbContextOptions<AppDBContext> options) :
+        base(options)
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,12 +29,11 @@ namespace gamblingSite.Models
                 .WithMany(r => r.ApplicationUserRouletteModels)
                 .HasForeignKey(ar => ar.SpinId);
 
-           
-
-
             base.OnModelCreating(modelBuilder);
+
         }
 
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<RouletteModel> RouletteModels { get; set; }
         public DbSet<ApplicationUserRouletteModel> ApplicationUserRouletteModels { get; set; }
     }
