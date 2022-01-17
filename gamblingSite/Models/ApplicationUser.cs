@@ -11,5 +11,7 @@ namespace gamblingSite.Models
     {
         public decimal MoneyAmount {get; set;}
 
+        public ICollection<RouletteModel> Spins { get; set; }
+
     }
 }
