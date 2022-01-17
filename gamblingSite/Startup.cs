@@ -27,10 +27,13 @@ namespace gamblingSite
         {
             services.AddControllersWithViews();
 
-            string connectionString = Configuration.GetConnectionString("default");                              //added
-            services.AddDbContext<AppDBContext>(c => c.UseSqlServer(connectionString));                          //added
+            string identityConnectionString = Configuration.GetConnectionString("IdentityConnectionString");                              //added
+            services.AddDbContext<AppIdentityDBContext>(c => c.UseSqlServer(identityConnectionString));                          //added
 
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();         //added
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDBContext>();         //added
+
+            string defaultConnectionString = Configuration.GetConnectionString("default");                              //added
+            services.AddDbContext<AppDBContext>(c => c.UseSqlServer(defaultConnectionString));                          //added
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

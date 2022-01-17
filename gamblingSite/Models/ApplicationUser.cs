@@ -9,9 +9,9 @@ namespace gamblingSite.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public decimal MoneyAmount {get; set;}
+        public decimal WalletSize {get; set;}
 
-        public ICollection<RouletteModel> Spins { get; set; }
+        public ICollection<ApplicationUserRouletteModel> ApplicationUserRouletteModels { get; set; }
 
     }
 }

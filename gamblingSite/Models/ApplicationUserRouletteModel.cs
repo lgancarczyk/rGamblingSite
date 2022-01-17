@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace gamblingSite.Models
 {
+    [Keyless]
     public class ApplicationUserRouletteModel
     {
         public string UserId { get; set; }
@@ -13,6 +16,5 @@ namespace gamblingSite.Models
         public RouletteModel RouletteModel { get; set; }
         public decimal Stake { get; set; }
         public string Colour { get; set; }
-
     }
 }
