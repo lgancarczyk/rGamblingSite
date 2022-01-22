@@ -10,14 +10,13 @@ namespace gamblingSite.Controllers
     public class CasinoController : Controller
     {
 
-        //private ICrudRouletteRepository repository;
+        private ICrudRouletteRepository repository;
 
-        //public CasinoController(ICrudRouletteRepository repository)
-        //{
-        //    this.repository = repository;
-        //}
+        public CasinoController(ICrudRouletteRepository repository)
+        {
+            this.repository = repository;
+        }
 
-        //do tąd dodane chwilowo
         public IActionResult Roulette()
         {
             return View();
@@ -32,16 +31,5 @@ namespace gamblingSite.Controllers
             return View();
         }
 
-        public IActionResult AddRouletteInDatabase()
-        {
-            return View();
-        }
-        //[HttpPost]
-        //public IActionResult AddRoulette(RouletteModel item)
-        //{
-        //    item.SpinDate = DateTime.Now;
-        //    repository.Add(item);
-        //    return View("Roulette");
-        //}
     }
 }
