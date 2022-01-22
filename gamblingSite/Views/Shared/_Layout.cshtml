@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body class="my-background-medium-color">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3 my-background-light-color">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">gamblingSite</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -20,34 +20,38 @@
                     <ul class="navbar-nav flex-grow-1">
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link my-text-light-color" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link my-text-light-color" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Casino" asp-action="Roulette">Roulette</a>
+                            <a class="nav-link my-text-light-color" asp-area="" asp-controller="Casino" asp-action="Roulette">Roulette</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+
                         @if (User.Identity.IsAuthenticated)
                         {
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                <a class="nav-link my-text-light-color" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                             </li>
 
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link my-text-light-color" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                                <a class="nav-link my-text-light-color" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
                             </li>
 
                         }
                     </ul>
-                    </div>
+
+                </div>
             </div>
         </nav>
     </header>
@@ -57,7 +61,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="box-shadow footer text-muted my-background-dark-color">
         <div class="container">
             &copy; 2022 - gamblingSite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
