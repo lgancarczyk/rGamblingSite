@@ -15,13 +15,16 @@ namespace gamblingSite.Services
         private Timer _timer;
         private readonly ILogger _logger;
         private readonly IServiceScopeFactory _scopeFactory;
-        private ICrudRouletteRepository repository;
+        private static bool firstTime;
+        
 
 
         public RouletteService(ILogger<RouletteService> logger, IServiceScopeFactory scopeFactory)
         {
             _logger = logger;
             _scopeFactory = scopeFactory;
+            firstTime = true;
+            _logger.LogInformation("Timed Background Service is working.");
         }
 
 
@@ -33,32 +36,105 @@ namespace gamblingSite.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            //throw new NotImplementedException();
-            _timer = new Timer(AddNewRouletteRecord, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+            _timer = new Timer(RouletteOperations, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            //throw new NotImplementedException();
             _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
         }
 
-        public void AddNewRouletteRecord(object state) 
+        public void RouletteOperations(object state) 
         {
-            //RouletteModel item = new RouletteModel();
-            //item.SpinDate = DateTime.Now;
-            //item.Colour = "from Service";
-            //repository.Add(item);
-            _logger.LogInformation("Timed Background Service is working.");
-            using (var scope = _scopeFactory.CreateScope()) 
+            if (firstTime == true)
             {
+                AddNewRouletteRecord();
+                firstTime = false;
+            }
+            else
+            {
+                CloseOldRouletteRecord();
 
+                DrawColorForOldRouletteRecord();
+
+                //SettlePointsFromOldRecord();
+
+                AddNewRouletteRecord();
+            }
+        }
+
+        private string GetRandomColour() 
+        {   //36 max  simple colours black is even, red is odd
+            Random rnd = new Random();
+            int number = rnd.Next(0, 37);
+            if (number == 0)
+            {
+                return "green";
+            }
+            else if (number%2 == 0)
+            {
+                return "black";
+            }
+            else
+            {
+                return "red";
+            }
+        }
+        private int GetRouletteRecordLastId() 
+        {
+            int id;
+            _logger.LogInformation("GetRouletteRecordLastId is working.");
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+                id = dBContext.RouletteModels.Max(p => p.SpinID);
+            }
+            return id;
+        }
+
+        private void CloseOldRouletteRecord()
+        {
+
+            _logger.LogInformation("CloseOldRouletteRecord is working.");
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+                var item = dBContext.RouletteModels.Find(GetRouletteRecordLastId());
+                item.IsClosed = true;
+                dBContext.SaveChanges();
+            }
+        }
+
+        private void DrawColorForOldRouletteRecord()
+        {
+            _logger.LogInformation("DrawColorFromOldRouletteRecord is working.");
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+                var item = dBContext.RouletteModels.Find(GetRouletteRecordLastId());
+                item.SpinDate = DateTime.Now;
+                item.Colour = GetRandomColour();
+                dBContext.SaveChanges();
+            }
+        }
+
+        private void SettlePointsFromOldRecord()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddNewRouletteRecord() 
+        {
+
+            _logger.LogInformation("Timed Background Service is working.");
+            using (var scope = _scopeFactory.CreateScope())
+            {
                 var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
                 RouletteModel item = new RouletteModel();
                 item.SpinDate = DateTime.Now;
-                item.Colour = "Red";
+                item.Colour = null;
                 dBContext.RouletteModels.Add(item);
                 dBContext.SaveChanges();
             }
@@ -66,7 +142,6 @@ namespace gamblingSite.Services
 
         public void Dispose()
         {
-            //throw new NotImplementedException();
             _timer.Dispose();
         }
     }

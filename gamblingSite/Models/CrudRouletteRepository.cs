@@ -24,7 +24,7 @@ namespace gamblingSite.Models
 
         public RouletteModel Find(int id)
         {
-            throw new NotImplementedException();
+            return _context.RouletteModels.Find(id);
         }
     }
 }

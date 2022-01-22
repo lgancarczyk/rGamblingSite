@@ -13,6 +13,7 @@ namespace gamblingSite.Models
         public string Colour { get; set; }
         public DateTime SpinDate { get; set; }
         //public ICollection<ApplicationUser> ApplicationUsers { get; set; }
+        public bool IsClosed { get; set; }
         public ICollection<ApplicationUserRouletteModel> ApplicationUserRouletteModels { get; set; }
     }
 }
