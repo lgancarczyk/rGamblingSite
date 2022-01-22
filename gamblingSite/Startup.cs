@@ -1,4 +1,5 @@
 using gamblingSite.Models;
+using gamblingSite.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +32,10 @@ namespace gamblingSite
             services.AddDbContext<AppDBContext>(c => c.UseSqlServer(defaultConnectionString));                          //added
 
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();         //added
+
+            //services.AddTransient<ICrudRouletteRepository, CrudRouletteRepository>();                                  //added mo¿e chwilowe
+
+            services.AddHostedService<RouletteService>();
 
         }
 
