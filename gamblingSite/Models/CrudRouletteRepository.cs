@@ -16,7 +16,6 @@ namespace gamblingSite.Models
 
         public RouletteModel Add(RouletteModel rouletteModel)
         {
-            //throw new NotImplementedException();
             var entity = _context.RouletteModels.Add(rouletteModel).Entity;
             _context.SaveChanges();
             return entity;

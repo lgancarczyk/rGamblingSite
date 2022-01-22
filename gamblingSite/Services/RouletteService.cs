@@ -1,5 +1,7 @@
 ﻿using gamblingSite.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +13,23 @@ namespace gamblingSite.Services
     public class RouletteService : IHostedService, IDisposable
     {
         private Timer _timer;
+        private readonly ILogger _logger;
+        private readonly IServiceScopeFactory _scopeFactory;
         private ICrudRouletteRepository repository;
 
-        public RouletteService(ICrudRouletteRepository repository)
+
+        public RouletteService(ILogger<RouletteService> logger, IServiceScopeFactory scopeFactory)
         {
-            this.repository = repository;
+            _logger = logger;
+            _scopeFactory = scopeFactory;
         }
+
+
+        //private ICrudRouletteRepository repository;
+        //public RouletteService(ICrudRouletteRepository repository)
+        //{
+        //    this.repository = repository;
+        //}
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -34,10 +47,21 @@ namespace gamblingSite.Services
 
         public void AddNewRouletteRecord(object state) 
         {
-            RouletteModel item = new RouletteModel();
-            item.SpinDate = DateTime.Now;
-            item.Colour = "from Service";
-            repository.Add(item);
+            //RouletteModel item = new RouletteModel();
+            //item.SpinDate = DateTime.Now;
+            //item.Colour = "from Service";
+            //repository.Add(item);
+            _logger.LogInformation("Timed Background Service is working.");
+            using (var scope = _scopeFactory.CreateScope()) 
+            {
+
+                var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+                RouletteModel item = new RouletteModel();
+                item.SpinDate = DateTime.Now;
+                item.Colour = "Red";
+                dBContext.RouletteModels.Add(item);
+                dBContext.SaveChanges();
+            }
         }
 
         public void Dispose()

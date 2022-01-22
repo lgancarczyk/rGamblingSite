@@ -33,7 +33,7 @@ namespace gamblingSite
 
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();         //added
 
-            //services.AddTransient<ICrudRouletteRepository, CrudRouletteRepository>();                                  //added mo¿e chwilowe
+            services.AddTransient<ICrudRouletteRepository, CrudRouletteRepository>();                                  //added mo¿e chwilowe
 
             services.AddHostedService<RouletteService>();
 
