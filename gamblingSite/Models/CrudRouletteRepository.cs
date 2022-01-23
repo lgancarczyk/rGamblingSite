@@ -26,5 +26,11 @@ namespace gamblingSite.Models
         {
             return _context.RouletteModels.Find(id);
         }
+
+        public int FindLastId()
+        {
+            int id = _context.RouletteModels.Max(p => p.SpinID);
+            return id;
+        }
     }
 }

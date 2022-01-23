@@ -19,8 +19,17 @@ namespace gamblingSite.Controllers
 
         public IActionResult Roulette()
         {
-            return View();
+            int id = repository.FindLastId();
+            RouletteModel item = repository.Find(id);
+            return View(item);
         }
+
+        public ActionResult RefreshRouletteCounter()
+        {
+            int id = repository.FindLastId();
+            return PartialView(repository.Find(id)); 
+        }
+
         [HttpPost]
         public IActionResult Roulette(string bet)
         {

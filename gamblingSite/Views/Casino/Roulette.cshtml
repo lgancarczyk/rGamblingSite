@@ -1,13 +1,54 @@
-﻿@*
+﻿@model gamblingSite.Models.RouletteModel
+
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 
-<div class="container-fluid m-3">
+<div class="container-fluid m-3" id="test">
 
+
+    @{
+        TimeSpan timeSpan = Model.SpinDate.Subtract(DateTime.Now);
+    }
     <a asp-controller="Casino" asp-action="Roulette" asp-route-id="Red" class="btn btn-secondary bg-danger">Red</a>
     <a asp-controller="Casino" asp-action="Roulette" asp-route-id="Green" class="btn btn-secondary bg-success">Green</a>
     <a asp-controller="Casino" asp-action="Roulette" asp-route-id="Black" class="btn btn-secondary bg-dark">Black</a>
+    <span id="timerLabel" runat="server">@timeSpan.Seconds</span>
+
+
 
 </div>
+@*@Ajax.ActionLink(
+                "aa", // <-- Text to display
+                "RefreshRouletteCounter",// <-- Action/Method Name
+                  "Casino",//<!-- Controller Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "UpdateContentDiv", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", // <-- HTTP method
+                     LoadingElementId = "divLoading", //Id of Loading GIF Image
+                     OnBegin = "onAjaxBegin", //OnBegin JS Function
+                     OnComplete = "onAjaxComplete" //OnComplete JS Function
+                 },
+                  new { @class = "btn btn-primary" } //-- Class
+                 )*@
+
+@section Scripts{
+    <script type="text/javascript">
+
+        function countdown() {
+            seconds = document.getElementById("timerLabel").innerHTML;
+            if (seconds > 0) {
+                document.getElementById("timerLabel").innerHTML = seconds - 1;
+                setTimeout("countdown()", 1000);
+            }
+        }
+
+        setTimeout("countdown()", 1000);
+
+    </script>
+}

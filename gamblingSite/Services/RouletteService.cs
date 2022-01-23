@@ -133,7 +133,7 @@ namespace gamblingSite.Services
             {
                 var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
                 RouletteModel item = new RouletteModel();
-                item.SpinDate = DateTime.Now;
+                item.SpinDate = DateTime.Now.AddMinutes(1);
                 item.Colour = null;
                 dBContext.RouletteModels.Add(item);
                 dBContext.SaveChanges();

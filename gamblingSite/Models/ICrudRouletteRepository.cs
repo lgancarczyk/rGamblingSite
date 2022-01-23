@@ -9,6 +9,7 @@ namespace gamblingSite.Models
     {
         RouletteModel Add(RouletteModel rouletteModel);
         RouletteModel Find(int id);
+        int FindLastId();
     }
 
 }
