@@ -10,8 +10,8 @@ using gamblingSite.Models;
 namespace gamblingSite.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220122172057_isClosed_RoulleteModel")]
-    partial class isClosed_RoulleteModel
+    [Migration("20220123220436_addedBetId")]
+    partial class addedBetId
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -222,6 +222,11 @@ namespace gamblingSite.Migrations
 
             modelBuilder.Entity("gamblingSite.Models.ApplicationUserRouletteModel", b =>
                 {
+                    b.Property<int>("BetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -234,9 +239,11 @@ namespace gamblingSite.Migrations
                     b.Property<decimal>("Stake")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("UserId", "SpinId");
+                    b.HasKey("BetId", "UserId", "SpinId");
 
                     b.HasIndex("SpinId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ApplicationUserRouletteModels");
                 });

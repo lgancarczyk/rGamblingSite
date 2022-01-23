@@ -220,6 +220,11 @@ namespace gamblingSite.Migrations
 
             modelBuilder.Entity("gamblingSite.Models.ApplicationUserRouletteModel", b =>
                 {
+                    b.Property<int>("BetId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -232,9 +237,11 @@ namespace gamblingSite.Migrations
                     b.Property<decimal>("Stake")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("UserId", "SpinId");
+                    b.HasKey("BetId", "UserId", "SpinId");
 
                     b.HasIndex("SpinId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ApplicationUserRouletteModels");
                 });

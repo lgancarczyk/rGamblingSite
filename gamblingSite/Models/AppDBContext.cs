@@ -19,7 +19,10 @@ namespace gamblingSite.Models
         {
 
             modelBuilder.Entity<ApplicationUserRouletteModel>()
-                .HasKey(ar => new { ar.UserId, ar.SpinId });
+                .HasKey(ar => new {ar.BetId, ar.UserId, ar.SpinId });
+            modelBuilder.Entity<ApplicationUserRouletteModel>()
+                .Property(ar => ar.BetId)
+                .ValueGeneratedOnAdd();
             modelBuilder.Entity<ApplicationUserRouletteModel>()
                 .HasOne(ar => ar.ApplicationUser)
                 .WithMany(a => a.ApplicationUserRouletteModels)
