@@ -12,14 +12,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Content\images\" />
-    <Folder Include="Content\fonts\" />
-    <Folder Include="Content\icons\" />
-    <Folder Include="Content\Scripts\" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.5" />
   </ItemGroup>
 
 </Project>

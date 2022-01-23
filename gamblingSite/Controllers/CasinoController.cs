@@ -10,24 +10,28 @@ namespace gamblingSite.Controllers
     public class CasinoController : Controller
     {
 
-        private ICrudRouletteRepository repository;
+        private ICrudRouletteRepository rRepository;
+        private IApplicationUserRouletteModelRepository arRepository;
 
-        public CasinoController(ICrudRouletteRepository repository)
+        public CasinoController(
+            ICrudRouletteRepository rRepository,
+            IApplicationUserRouletteModelRepository arRepository)
         {
-            this.repository = repository;
+            this.rRepository = rRepository;
+            this.arRepository = arRepository;
         }
 
         public IActionResult Roulette()
         {
-            int id = repository.FindLastId();
-            RouletteModel item = repository.Find(id);
+            int id = rRepository.FindLastId();
+            RouletteModel item = rRepository.Find(id);
             return View(item);
         }
 
         public ActionResult RefreshRouletteCounter()
         {
-            int id = repository.FindLastId();
-            return PartialView(repository.Find(id)); 
+            int id = rRepository.FindLastId();
+            return PartialView(rRepository.Find(id)); 
         }
 
         [HttpPost]

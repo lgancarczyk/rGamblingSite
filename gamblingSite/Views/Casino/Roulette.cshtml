@@ -1,41 +1,64 @@
 ﻿@model gamblingSite.Models.RouletteModel
-
-
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    TimeSpan timeSpan = Model.SpinDate.Subtract(DateTime.Now);
 }
 
-<div class="container-fluid m-3" id="test">
+<div class="container-fluid" id="my-main-roulette-container">
+    <div class="row">
+        <div class="mx-auto d-flex flex-row">
+            <p class="my-timer my-text-light-color">Next Spin in&nbsp;</p>
+            <span id="timerLabel" runat="server" class="my-timer my-text-light-color">@timeSpan.Seconds</span>
+            <p class="my-timer my-text-light-color">&nbsp;seconds</p>
+        </div>
+        
+    </div>
+    
+    <form method="post" class="row container">
 
+        <div class="row w-100 container">
+            @*<input asp-for="Stake" />*@
+            stake
+        </div>
 
-    @{
-        TimeSpan timeSpan = Model.SpinDate.Subtract(DateTime.Now);
-    }
-    <a asp-controller="Casino" asp-action="Roulette" asp-route-id="Red" class="btn btn-secondary bg-danger">Red</a>
-    <a asp-controller="Casino" asp-action="Roulette" asp-route-id="Green" class="btn btn-secondary bg-success">Green</a>
-    <a asp-controller="Casino" asp-action="Roulette" asp-route-id="Black" class="btn btn-secondary bg-dark">Black</a>
-    <span id="timerLabel" runat="server">@timeSpan.Seconds</span>
+        <div class=" row w-100 container">
+            <div class="col-4 align-self-center">
+                <div class="container w-100 mx-1 d-flex flex-row">
+                    <img class="my-chip-form-icon" src="~/icons/chip-red.png" />
+                    <button type="submit" class="w-100 btn-danger">Win x2</button>
+                </div>
+            </div>
 
+            <div class="col-4 align-self-center">
+                <div class="container w-100 mx-1 d-flex flex-row">
+                    <img class="my-chip-form-icon" src="~/icons/chip-green.png" />
+                    <button type="submit" class="w-100 btn-success">Win x7</button>
+                </div>
 
+            </div>
+
+            <div class="col-4 align-self-center">
+                <div class="container w-100 mx-1 d-flex flex-row">
+                    <img class="my-chip-form-icon" src="~/icons/chip-black.png" />
+                    <button type="submit" class="w-100 btn-dark">Win x2</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
 
 </div>
-@*@Ajax.ActionLink(
-                "aa", // <-- Text to display
-                "RefreshRouletteCounter",// <-- Action/Method Name
-                  "Casino",//<!-- Controller Name
-                 new AjaxOptions
-                 {
-                     UpdateTargetId = "UpdateContentDiv", // <-- DOM element ID to update
-                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
-                     HttpMethod = "GET", // <-- HTTP method
-                     LoadingElementId = "divLoading", //Id of Loading GIF Image
-                     OnBegin = "onAjaxBegin", //OnBegin JS Function
-                     OnComplete = "onAjaxComplete" //OnComplete JS Function
-                 },
-                  new { @class = "btn btn-primary" } //-- Class
-                 )*@
+
+@*@{
+    TimeSpan timeSpan = Model.SpinDate.Subtract(DateTime.Now);
+}
+<a asp-controller="Casino" asp-action="Roulette" asp-route-id="Red" class="btn btn-secondary bg-danger">Red</a>
+<a asp-controller="Casino" asp-action="Roulette" asp-route-id="Green" class="btn btn-secondary bg-success">Green</a>
+<a asp-controller="Casino" asp-action="Roulette" asp-route-id="Black" class="btn btn-secondary bg-dark">Black</a>
+<span id="timerLabel" runat="server">@timeSpan.Seconds</span>*@
+
 
 @section Scripts{
     <script type="text/javascript">

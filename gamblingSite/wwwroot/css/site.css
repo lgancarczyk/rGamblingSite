@@ -87,3 +87,11 @@ body {
 .my-text-light-color {
     color: #909090;
 }
+.my-timer {
+    font-family: 'Bodoni MT';
+    font-size: 2rem;
+}
+.my-chip-form-icon{
+    width: 40px;
+    margin-right: 10px;
+}
