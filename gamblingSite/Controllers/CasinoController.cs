@@ -1,47 +1,87 @@
 ﻿using gamblingSite.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace gamblingSite.Controllers
 {
     public class CasinoController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
 
         private ICrudRouletteRepository rRepository;
-        private IApplicationUserRouletteModelRepository arRepository;
 
-        public CasinoController(
-            ICrudRouletteRepository rRepository,
-            IApplicationUserRouletteModelRepository arRepository)
+        public CasinoController(ICrudRouletteRepository rRepository, UserManager<ApplicationUser> userManager)
         {
             this.rRepository = rRepository;
-            this.arRepository = arRepository;
+            _userManager = userManager;
         }
 
         public IActionResult Roulette()
         {
-            int id = rRepository.FindLastId();
-            RouletteModel item = rRepository.Find(id);
-            return View(item);
-        }
-
-        public ActionResult RefreshRouletteCounter()
-        {
-            int id = rRepository.FindLastId();
-            return PartialView(rRepository.Find(id)); 
+            var rouletteViewModel = GetInfo();
+            return View(rouletteViewModel);
         }
 
         [HttpPost]
-        public IActionResult Roulette(string bet)
+        public IActionResult Roulette(ApplicationUserRouletteModel item, string red, string green, string black)
         {
-            if (bet == "Red")
+            if (User.Identity.IsAuthenticated)
             {
-                return View("Red");
+                string color = null;
+
+                if (!string.IsNullOrEmpty(red))
+                {
+                    color = "red";
+                }
+                if (!string.IsNullOrEmpty(green))
+                {
+                    color = "green";
+                }
+                if (!string.IsNullOrEmpty(black))
+                {
+                    color = "black";
+                }
+                
+                var userId = GetUserId();
+                var stake = item.Stake;
+                var spinId = rRepository.FindLastRouletteId();
+
+                //rRepository.AddUserRoulette(color, userId, stake, spinId);
+
+                System.Diagnostics.Debug.WriteLine(color);
+                var rouletteViewModel = GetInfo();
+
+                return View(rouletteViewModel);
             }
-            return View();
+            else
+            {
+                return RedirectToAction("Login","Account");
+            }
+            
+        }
+        public RouletteViewModel GetInfo()
+        {
+            RouletteViewModel rouletteViewModel = new RouletteViewModel();
+            int id = rRepository.FindLastRouletteId();
+            RouletteModel item = rRepository.FindRoulette(id);
+            rouletteViewModel.rouletteModel = item;
+            return rouletteViewModel;
+        }
+
+        private string GetUserId() 
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return userId;
+        }
+        public ActionResult RefreshRouletteCounter()
+        {
+            int id = rRepository.FindLastRouletteId();
+            return PartialView(rRepository.FindRoulette(id)); 
         }
 
     }

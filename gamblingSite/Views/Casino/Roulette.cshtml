@@ -1,9 +1,9 @@
-﻿@model gamblingSite.Models.RouletteModel
+﻿@model gamblingSite.Models.RouletteViewModel
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    TimeSpan timeSpan = Model.SpinDate.Subtract(DateTime.Now);
+    TimeSpan timeSpan = Model.rouletteModel.SpinDate.Subtract(DateTime.Now);
 }
 
 <div class="container-fluid" id="my-main-roulette-container">
@@ -19,22 +19,21 @@
     <form method="post" class="row container">
 
         <div class="row w-100 container">
-            @*<input asp-for="Stake" />*@
-            stake
+            <input asp-for="applicationUserRouletteModel.Stake" />
         </div>
 
         <div class=" row w-100 container">
             <div class="col-4 align-self-center">
                 <div class="container w-100 mx-1 d-flex flex-row">
                     <img class="my-chip-form-icon" src="~/icons/chip-red.png" />
-                    <button type="submit" class="w-100 btn-danger">Win x2</button>
+                    <button type="submit" name="red" value="red" class="w-100 btn-danger">Win x2</button>
                 </div>
             </div>
 
             <div class="col-4 align-self-center">
                 <div class="container w-100 mx-1 d-flex flex-row">
                     <img class="my-chip-form-icon" src="~/icons/chip-green.png" />
-                    <button type="submit" class="w-100 btn-success">Win x7</button>
+                    <button type="submit" name="green" value="green" class="w-100 btn-success">Win x7</button>
                 </div>
 
             </div>
@@ -42,7 +41,7 @@
             <div class="col-4 align-self-center">
                 <div class="container w-100 mx-1 d-flex flex-row">
                     <img class="my-chip-form-icon" src="~/icons/chip-black.png" />
-                    <button type="submit" class="w-100 btn-dark">Win x2</button>
+                    <button type="submit" name="black" value="black" class="w-100 btn-dark">Win x2</button>
                 </div>
             </div>
         </div>

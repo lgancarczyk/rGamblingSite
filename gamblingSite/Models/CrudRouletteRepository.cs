@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace gamblingSite.Models
 {
@@ -9,12 +11,15 @@ namespace gamblingSite.Models
     {
         private AppDBContext _context;
 
-        public CrudRouletteRepository(AppDBContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public CrudRouletteRepository(AppDBContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public RouletteModel Add(RouletteModel rouletteModel)
+        public RouletteModel AddRoulette(RouletteModel rouletteModel)
         {
             var entity = _context.RouletteModels.Add(rouletteModel).Entity;
             _context.SaveChanges();
@@ -22,15 +27,26 @@ namespace gamblingSite.Models
 
         }
 
-        public RouletteModel Find(int id)
+        public RouletteModel FindRoulette(int id)
         {
             return _context.RouletteModels.Find(id);
         }
 
-        public int FindLastId()
+        public int FindLastRouletteId()
         {
             int id = _context.RouletteModels.Max(p => p.SpinID);
             return id;
+        }
+
+        public void AddUserRoulette(string color, string userId, decimal stake, int spinId)
+        {
+            ApplicationUserRouletteModel item = new ApplicationUserRouletteModel();
+            item.Colour = color;
+            item.UserId = userId;
+            item.Stake = stake;
+            item.SpinId = spinId;
+            _context.ApplicationUserRouletteModels.Add(item);
+            _context.SaveChanges();
         }
     }
 }
