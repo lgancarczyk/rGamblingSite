@@ -7,6 +7,7 @@ namespace gamblingSite.Models
 {
     public class ApplicationUserRouletteModel
     {
+        
         public string UserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
         public int SpinId { get; set; }

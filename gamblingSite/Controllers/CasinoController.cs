@@ -51,7 +51,7 @@ namespace gamblingSite.Controllers
                 var stake = item.Stake;
                 var spinId = rRepository.FindLastRouletteId();
 
-                //rRepository.AddUserRoulette(color, userId, stake, spinId);
+                rRepository.AddUserRoulette(color, userId, stake, spinId);
 
                 System.Diagnostics.Debug.WriteLine(color);
                 var rouletteViewModel = GetInfo();
