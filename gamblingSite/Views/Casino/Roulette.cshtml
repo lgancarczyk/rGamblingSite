@@ -9,9 +9,9 @@
 <div class="container-fluid" id="my-main-roulette-container">
     <div class="row">
         <div class="mx-auto d-flex flex-row">
-            <p class="my-timer my-text-light-color">Next Spin in&nbsp;</p>
+            <p class="my-timer my-text-light-color" id="text-before-timer">Next Spin in&nbsp;</p>
             <span id="timerLabel" runat="server" class="my-timer my-text-light-color">@timeSpan.Seconds</span>
-            <p class="my-timer my-text-light-color">&nbsp;seconds</p>
+            <p class="my-timer my-text-light-color" id="text-after-timer">&nbsp;seconds</p>
         </div>
         
     </div>
@@ -19,10 +19,17 @@
     <form method="post" class="row container">
 
         <div class="row w-100 container">
-            <input asp-for="applicationUserRouletteModel.Stake" />
-            <span asp-validation-for="applicationUserRouletteModel.Stake" class="text-danger"></span>
 
-            Your Balance :@ViewBag.Balance
+            <div class="col-8">
+                <input class="form-control-plaintext my-background-light-color" asp-for="applicationUserRouletteModel.Stake" />
+                <span asp-validation-for="applicationUserRouletteModel.Stake" class="text-danger"></span>
+            </div>
+            <div class="col-4 container d-flex flex-row-reverse">
+                <img class="my-chip-balance-icon" src="~/icons/chip-balance.png" />
+                <p class=".my-text-light-color my-balance-text">@ViewBag.Balance</p>
+
+            </div>
+            
         </div>
 
         <div class=" row w-100 container">
@@ -59,10 +66,25 @@
 
         function countdown() {
             seconds = document.getElementById("timerLabel").innerHTML;
+            
             if (seconds > 0) {
                 document.getElementById("timerLabel").innerHTML = seconds - 1;
                 setTimeout("countdown()", 1000);
             }
+            else {
+                
+                document.getElementById("timerLabel").innerHTML = "Starting";
+                hideTimerText();
+                setTimeout(reloadPage(), 2000);
+            }
+        }
+        function hideTimerText() {
+            document.getElementById("text-before-timer").innerHTML = "";
+            document.getElementById("text-after-timer").innerHTML = "";
+        }
+        function reloadPage()
+        {
+            location.reload(true);
         }
 
         setTimeout("countdown()", 1000);
