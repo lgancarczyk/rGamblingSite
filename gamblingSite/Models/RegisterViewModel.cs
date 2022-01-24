@@ -11,6 +11,7 @@ namespace gamblingSite.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+        public decimal Balance { get; set; } //chwilowe trzeba usunac....................................................................
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }

@@ -47,6 +47,25 @@ namespace gamblingSite.Models
             item.SpinId = spinId;
             _context.ApplicationUserRouletteModels.Add(item);
             _context.SaveChanges();
+            ReduceUserBalance(userId, stake);
+
+        }
+
+        public decimal GetUserBalance(string id)
+        {
+            var result = (from p in _context.ApplicationUsers
+                          where p.Id == id
+                          select p.WalletSize).FirstOrDefault();
+
+            return result;
+        }
+
+        public void ReduceUserBalance(string userId, decimal stake)
+        {
+            var newBalance = GetUserBalance(userId) - stake;
+            ApplicationUser user = _context.ApplicationUsers.FirstOrDefault(x => x.Id == userId);
+            user.WalletSize = newBalance;
+            _context.SaveChanges();
         }
     }
 }

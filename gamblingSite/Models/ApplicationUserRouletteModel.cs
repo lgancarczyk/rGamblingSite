@@ -20,11 +20,4 @@ namespace gamblingSite.Models
     }
 }
 
-//[Key]
-//public int BetId { get; set; }
-//public string UserId { get; set; }
-//public ApplicationUser ApplicationUser { get; set; }
-//public int SpinId { get; set; }
-//public RouletteModel RouletteModel { get; set; }
-//public decimal Stake { get; set; }
-//public string Colour { get; set; }
+

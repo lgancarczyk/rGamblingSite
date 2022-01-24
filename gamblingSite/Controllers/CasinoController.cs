@@ -23,15 +23,18 @@ namespace gamblingSite.Controllers
 
         public IActionResult Roulette()
         {
+            ViewBag.Balance = rRepository.GetUserBalance(GetUserId());
             var rouletteViewModel = GetInfo();
+
             return View(rouletteViewModel);
         }
 
         [HttpPost]
-        public IActionResult Roulette(ApplicationUserRouletteModel item, string red, string green, string black)
+        public IActionResult Roulette(RouletteViewModel item, string red, string green, string black)
         {
             if (User.Identity.IsAuthenticated)
             {
+
                 string color = null;
 
                 if (!string.IsNullOrEmpty(red))
@@ -48,15 +51,20 @@ namespace gamblingSite.Controllers
                 }
                 
                 var userId = GetUserId();
-                var stake = item.Stake;
+                var stake = item.applicationUserRouletteModel.Stake;
+                if (stake>rRepository.GetUserBalance(userId) || stake<=0)
+                {
+                    return RedirectToAction("Roulette", "Casino");
+                }
                 var spinId = rRepository.FindLastRouletteId();
+
 
                 rRepository.AddUserRoulette(color, userId, stake, spinId);
 
                 System.Diagnostics.Debug.WriteLine(color);
-                var rouletteViewModel = GetInfo();
+                System.Diagnostics.Debug.WriteLine(stake);
 
-                return View(rouletteViewModel);
+                return RedirectToAction("Roulette", "Casino");
             }
             else
             {

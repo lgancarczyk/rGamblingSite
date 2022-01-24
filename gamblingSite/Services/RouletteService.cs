@@ -1,10 +1,12 @@
 ﻿using gamblingSite.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +18,8 @@ namespace gamblingSite.Services
         private readonly ILogger _logger;
         private readonly IServiceScopeFactory _scopeFactory;
         private static bool firstTime;
-        
+
+
 
 
         public RouletteService(ILogger<RouletteService> logger, IServiceScopeFactory scopeFactory)
@@ -69,18 +72,9 @@ namespace gamblingSite.Services
         {   //36 max  simple colours black is even, red is odd
             Random rnd = new Random();
             int number = rnd.Next(0, 37);
-            if (number == 0)
-            {
-                return "green";
-            }
-            else if (number%2 == 0)
-            {
-                return "black";
-            }
-            else
-            {
-                return "red";
-            }
+            if (number == 0) { return "green"; }
+            else if (number % 2 == 0) { return "black"; }
+            else { return "red"; }
         }
         private int GetRouletteRecordLastId() 
         {
@@ -124,6 +118,28 @@ namespace gamblingSite.Services
         {
             throw new NotImplementedException();
         }
+        private int GetLastRouletteId()
+        {
+            _logger.LogInformation("DrawColorFromOldRouletteRecord is working.");
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+                int id = dBContext.RouletteModels.Max(p => p.SpinID);
+                return id;
+            }
+        }
+        //private string GetUserId()
+        //{
+        //    _logger.LogInformation("DrawColorFromOldRouletteRecord is working.");
+        //    using (var scope = _scopeFactory.CreateScope())
+        //    {
+        //        var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+        //        string id = User
+        //    }
+        //}
+
+
+        
 
         public void AddNewRouletteRecord() 
         {

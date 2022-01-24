@@ -20,6 +20,9 @@
 
         <div class="row w-100 container">
             <input asp-for="applicationUserRouletteModel.Stake" />
+            <span asp-validation-for="applicationUserRouletteModel.Stake" class="text-danger"></span>
+
+            Your Balance :@ViewBag.Balance
         </div>
 
         <div class=" row w-100 container">
@@ -49,14 +52,6 @@
     </form>
 
 </div>
-
-@*@{
-    TimeSpan timeSpan = Model.SpinDate.Subtract(DateTime.Now);
-}
-<a asp-controller="Casino" asp-action="Roulette" asp-route-id="Red" class="btn btn-secondary bg-danger">Red</a>
-<a asp-controller="Casino" asp-action="Roulette" asp-route-id="Green" class="btn btn-secondary bg-success">Green</a>
-<a asp-controller="Casino" asp-action="Roulette" asp-route-id="Black" class="btn btn-secondary bg-dark">Black</a>
-<span id="timerLabel" runat="server">@timeSpan.Seconds</span>*@
 
 
 @section Scripts{

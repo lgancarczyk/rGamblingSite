@@ -35,6 +35,7 @@ namespace gamblingSite.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
+                    WalletSize = model.Balance
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
