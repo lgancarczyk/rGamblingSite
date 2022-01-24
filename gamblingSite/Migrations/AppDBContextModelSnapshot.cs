@@ -19,21 +19,6 @@ namespace gamblingSite.Migrations
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ApplicationUserPromoCodeModel", b =>
-                {
-                    b.Property<string>("applicationUsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("promoCodeModelsPromoCodeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("applicationUsersId", "promoCodeModelsPromoCodeId");
-
-                    b.HasIndex("promoCodeModelsPromoCodeId");
-
-                    b.ToTable("ApplicationUserPromoCodeModel");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -233,6 +218,21 @@ namespace gamblingSite.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("gamblingSite.Models.ApplicationUserPromoCodeModel", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PromoCodeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "PromoCodeId");
+
+                    b.HasIndex("PromoCodeId");
+
+                    b.ToTable("ApplicationUserPromoCodeModels");
+                });
+
             modelBuilder.Entity("gamblingSite.Models.ApplicationUserRouletteModel", b =>
                 {
                     b.Property<int>("BetId")
@@ -271,9 +271,12 @@ namespace gamblingSite.Migrations
                     b.Property<decimal>("CodeValue")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("PromoCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("PromoCodeId");
 
-                    b.ToTable("PromoCodeModel");
+                    b.ToTable("PromoCodeModels");
                 });
 
             modelBuilder.Entity("gamblingSite.Models.RouletteModel", b =>
@@ -295,21 +298,6 @@ namespace gamblingSite.Migrations
                     b.HasKey("SpinID");
 
                     b.ToTable("RouletteModels");
-                });
-
-            modelBuilder.Entity("ApplicationUserPromoCodeModel", b =>
-                {
-                    b.HasOne("gamblingSite.Models.ApplicationUser", null)
-                        .WithMany()
-                        .HasForeignKey("applicationUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("gamblingSite.Models.PromoCodeModel", null)
-                        .WithMany()
-                        .HasForeignKey("promoCodeModelsPromoCodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -363,6 +351,25 @@ namespace gamblingSite.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("gamblingSite.Models.ApplicationUserPromoCodeModel", b =>
+                {
+                    b.HasOne("gamblingSite.Models.PromoCodeModel", "PromoCodeModel")
+                        .WithMany("ApplicationUserPromoCodeModels")
+                        .HasForeignKey("PromoCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("gamblingSite.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("ApplicationUserPromoCodeModels")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("PromoCodeModel");
+                });
+
             modelBuilder.Entity("gamblingSite.Models.ApplicationUserRouletteModel", b =>
                 {
                     b.HasOne("gamblingSite.Models.RouletteModel", "RouletteModel")
@@ -384,7 +391,14 @@ namespace gamblingSite.Migrations
 
             modelBuilder.Entity("gamblingSite.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("ApplicationUserPromoCodeModels");
+
                     b.Navigation("ApplicationUserRouletteModels");
+                });
+
+            modelBuilder.Entity("gamblingSite.Models.PromoCodeModel", b =>
+                {
+                    b.Navigation("ApplicationUserPromoCodeModels");
                 });
 
             modelBuilder.Entity("gamblingSite.Models.RouletteModel", b =>

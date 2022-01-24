@@ -10,7 +10,8 @@ namespace gamblingSite.Models
     {
         [Key]
         public int PromoCodeId { get; set; }
+        public string PromoCode { get; set; }
         public decimal CodeValue { get; set; }
-        public ICollection<ApplicationUser> applicationUsers { get; set; }
+        public ICollection<ApplicationUserPromoCodeModel> ApplicationUserPromoCodeModels { get; set; }
     }
 }

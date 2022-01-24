@@ -10,8 +10,8 @@ using gamblingSite.Models;
 namespace gamblingSite.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220123220436_addedBetId")]
-    partial class addedBetId
+    [Migration("20220124205416_addedPromo")]
+    partial class addedPromo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -220,6 +220,21 @@ namespace gamblingSite.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("gamblingSite.Models.ApplicationUserPromoCodeModel", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PromoCodeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "PromoCodeId");
+
+                    b.HasIndex("PromoCodeId");
+
+                    b.ToTable("ApplicationUserPromoCodeModels");
+                });
+
             modelBuilder.Entity("gamblingSite.Models.ApplicationUserRouletteModel", b =>
                 {
                     b.Property<int>("BetId")
@@ -246,6 +261,24 @@ namespace gamblingSite.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ApplicationUserRouletteModels");
+                });
+
+            modelBuilder.Entity("gamblingSite.Models.PromoCodeModel", b =>
+                {
+                    b.Property<int>("PromoCodeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("CodeValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PromoCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PromoCodeId");
+
+                    b.ToTable("PromoCodeModels");
                 });
 
             modelBuilder.Entity("gamblingSite.Models.RouletteModel", b =>
@@ -320,6 +353,25 @@ namespace gamblingSite.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("gamblingSite.Models.ApplicationUserPromoCodeModel", b =>
+                {
+                    b.HasOne("gamblingSite.Models.PromoCodeModel", "PromoCodeModel")
+                        .WithMany("ApplicationUserPromoCodeModels")
+                        .HasForeignKey("PromoCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("gamblingSite.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("ApplicationUserPromoCodeModels")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("PromoCodeModel");
+                });
+
             modelBuilder.Entity("gamblingSite.Models.ApplicationUserRouletteModel", b =>
                 {
                     b.HasOne("gamblingSite.Models.RouletteModel", "RouletteModel")
@@ -341,7 +393,14 @@ namespace gamblingSite.Migrations
 
             modelBuilder.Entity("gamblingSite.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("ApplicationUserPromoCodeModels");
+
                     b.Navigation("ApplicationUserRouletteModels");
+                });
+
+            modelBuilder.Entity("gamblingSite.Models.PromoCodeModel", b =>
+                {
+                    b.Navigation("ApplicationUserPromoCodeModels");
                 });
 
             modelBuilder.Entity("gamblingSite.Models.RouletteModel", b =>

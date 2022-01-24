@@ -35,6 +35,8 @@ namespace gamblingSite
 
             services.AddTransient<ICrudRouletteRepository, CrudRouletteRepository>();                                  //added mo¿e chwilowe
 
+            services.AddTransient<ICrudPromoCodeRepository, CrudPromoCodeRepository>();
+
             services.AddHostedService<RouletteService>();
 
         }

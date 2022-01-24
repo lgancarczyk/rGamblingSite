@@ -1,0 +1,29 @@
+﻿@model gamblingSite.Models.PromoCodeModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h1 class="my-text-light-color">Use Promo Code</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                
+                <label class="my-text-light-color" asp-for="PromoCode"></label>
+                <input asp-for="PromoCode" class="form-control" />
+                @if (ViewData["CodeError"] != null)
+                {
+                    <span class="text-danger">@ViewData["CodeError"]</span>
+                }
+                <span asp-validation-for="PromoCode" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn-primary">Use Code</button>
+        </form>
+
+    </div>
+</div>

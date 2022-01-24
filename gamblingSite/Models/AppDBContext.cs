@@ -17,7 +17,7 @@ namespace gamblingSite.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            //about creating relation between user and roulette
             modelBuilder.Entity<ApplicationUserRouletteModel>()
                 .HasKey(ar => new {ar.BetId, ar.UserId, ar.SpinId });
             modelBuilder.Entity<ApplicationUserRouletteModel>()
@@ -32,6 +32,18 @@ namespace gamblingSite.Models
                 .WithMany(r => r.ApplicationUserRouletteModels)
                 .HasForeignKey(ar => ar.SpinId);
 
+            //about creating relation between user and promo code
+            modelBuilder.Entity<ApplicationUserPromoCodeModel>()
+                .HasKey(ap => new { ap.UserId, ap.PromoCodeId });
+            modelBuilder.Entity<ApplicationUserPromoCodeModel>()
+                .HasOne(ap => ap.ApplicationUser)
+                .WithMany(a => a.ApplicationUserPromoCodeModels)
+                .HasForeignKey(ap => ap.UserId);
+            modelBuilder.Entity<ApplicationUserPromoCodeModel>()
+                .HasOne(ap => ap.PromoCodeModel)
+                .WithMany(p => p.ApplicationUserPromoCodeModels)
+                .HasForeignKey(ap => ap.PromoCodeId);
+
             base.OnModelCreating(modelBuilder);
 
         }
@@ -39,5 +51,7 @@ namespace gamblingSite.Models
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<RouletteModel> RouletteModels { get; set; }
         public DbSet<ApplicationUserRouletteModel> ApplicationUserRouletteModels { get; set; }
+        public DbSet<PromoCodeModel> PromoCodeModels { get; set; }
+        public DbSet<ApplicationUserPromoCodeModel> ApplicationUserPromoCodeModels { get; set; }
     }
 }

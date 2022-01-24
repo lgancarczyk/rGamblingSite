@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace gamblingSite.Migrations
 {
-    public partial class addedBetId : Migration
+    public partial class addedPromo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,6 +45,20 @@ namespace gamblingSite.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PromoCodeModels",
+                columns: table => new
+                {
+                    PromoCodeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PromoCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CodeValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PromoCodeModels", x => x.PromoCodeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -169,6 +183,30 @@ namespace gamblingSite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ApplicationUserPromoCodeModels",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PromoCodeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUserPromoCodeModels", x => new { x.UserId, x.PromoCodeId });
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserPromoCodeModels_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserPromoCodeModels_PromoCodeModels_PromoCodeId",
+                        column: x => x.PromoCodeId,
+                        principalTable: "PromoCodeModels",
+                        principalColumn: "PromoCodeId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ApplicationUserRouletteModels",
                 columns: table => new
                 {
@@ -195,6 +233,11 @@ namespace gamblingSite.Migrations
                         principalColumn: "SpinID",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUserPromoCodeModels_PromoCodeId",
+                table: "ApplicationUserPromoCodeModels",
+                column: "PromoCodeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApplicationUserRouletteModels_SpinId",
@@ -249,6 +292,9 @@ namespace gamblingSite.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ApplicationUserPromoCodeModels");
+
+            migrationBuilder.DropTable(
                 name: "ApplicationUserRouletteModels");
 
             migrationBuilder.DropTable(
@@ -265,6 +311,9 @@ namespace gamblingSite.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "PromoCodeModels");
 
             migrationBuilder.DropTable(
                 name: "RouletteModels");
