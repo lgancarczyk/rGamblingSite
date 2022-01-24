@@ -62,7 +62,7 @@ namespace gamblingSite.Services
 
                 DrawColorForOldRouletteRecord();
 
-                //SettlePointsFromOldRecord();
+                SettlePointsFromOldRecord();
 
                 AddNewRouletteRecord();
             }
@@ -71,7 +71,8 @@ namespace gamblingSite.Services
         private string GetRandomColour() 
         {   //36 max  simple colours black is even, red is odd
             Random rnd = new Random();
-            int number = rnd.Next(0, 37);
+            //int number = rnd.Next(0, 37);
+            int number = 1;
             if (number == 0) { return "green"; }
             else if (number % 2 == 0) { return "black"; }
             else { return "red"; }
@@ -116,7 +117,39 @@ namespace gamblingSite.Services
 
         private void SettlePointsFromOldRecord()
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("DrawColorFromOldRouletteRecord is working.");
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+                var color = (from p in dBContext.RouletteModels
+                             where p.SpinID == GetLastRouletteId()
+                             select p.Colour).FirstOrDefault();
+                var lastSpinId = GetLastRouletteId();
+
+                var winnerList = dBContext.ApplicationUserRouletteModels.Where(x => x.SpinId == lastSpinId && x.Colour == color)
+                    .Select(a => new ApplicationUserRouletteModel
+                    {
+                        UserId = a.UserId,
+                        Stake = a.Stake,
+                        Colour = a.Colour
+                    }).ToList();
+                foreach (var item in winnerList)
+                {
+                    ApplicationUser user = dBContext.ApplicationUsers.FirstOrDefault(x => x.Id == item.UserId);
+                    if (item.Colour == "green")
+                    {
+                        user.WalletSize = user.WalletSize + item.Stake * 7;
+                        dBContext.SaveChanges();
+                    }
+                    else
+                    {
+                        user.WalletSize = user.WalletSize + item.Stake * 2;
+                        dBContext.SaveChanges();
+                    }
+                }
+
+            }
+
         }
         private int GetLastRouletteId()
         {
@@ -128,15 +161,7 @@ namespace gamblingSite.Services
                 return id;
             }
         }
-        //private string GetUserId()
-        //{
-        //    _logger.LogInformation("DrawColorFromOldRouletteRecord is working.");
-        //    using (var scope = _scopeFactory.CreateScope())
-        //    {
-        //        var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
-        //        string id = User
-        //    }
-        //}
+        
 
 
         
