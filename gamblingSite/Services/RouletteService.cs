@@ -71,7 +71,7 @@ namespace gamblingSite.Services
         private string GetRandomColour() 
         {   //36 max  simple colours black is even, red is odd
             Random rnd = new Random();
-            int number = rnd.Next(0, 37);
+            int number = rnd.Next(37);
             if (number == 0) { return "green"; }
             else if (number % 2 == 0) { return "black"; }
             else { return "red"; }

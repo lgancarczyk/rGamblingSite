@@ -44,17 +44,26 @@ namespace gamblingSite.Controllers
             {
                 int codeId = _repository.FindPromoCodeId(model.PromoCode);
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                if (_repository.isCodeUsed(userId, codeId))
+                if (_repository.isCodeValid(model.PromoCode))
+                {
+                    if (_repository.isCodeUsed(userId, codeId))
+                    {
+                        ViewData["CodeError"] = "Invalid or already used code!";
+                        return View(model);
+                    }
+                    else
+                    {
+                        _repository.UsePromoCode(userId, codeId);
+                        return RedirectToAction("Roulette", "Casino");
+                    }
+                }
+                else
                 {
                     ViewData["CodeError"] = "Invalid or already used code!";
                     return View(model);
                 }
-                else
-                {
-                    _repository.UsePromoCode(userId, codeId);
-                    return RedirectToAction("Roulette", "Casino");
-                }
+
+                
                 
 
             }
@@ -75,9 +84,9 @@ namespace gamblingSite.Controllers
             {
                 var user = new ApplicationUser
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    WalletSize = model.Balance
+                    UserName = model.UserName,
+                    Email = model.Email
+
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);

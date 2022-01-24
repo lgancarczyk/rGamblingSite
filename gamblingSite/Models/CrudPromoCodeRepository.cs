@@ -38,8 +38,21 @@ namespace gamblingSite.Models
 
         public bool isCodeUsed(string userId, int codeId)
         {
-            var cc = _context.ApplicationUserPromoCodeModels.Where(x => x.UserId == userId && x.PromoCodeId == codeId);
+            var cc = _context.ApplicationUserPromoCodeModels.Where(x => x.UserId == userId && x.PromoCodeId == codeId).FirstOrDefault();
             if (cc is null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public bool isCodeValid(string code)
+        {
+            var isValid = _context.PromoCodeModels.Where(x => x.PromoCode == code).FirstOrDefault();
+            if (isValid is null)
             {
                 return false;
             }
@@ -54,6 +67,12 @@ namespace gamblingSite.Models
             decimal value = FindPromoCodeValue(codeId);
             ApplicationUser user = _context.ApplicationUsers.Where(x => x.Id == userId).FirstOrDefault();
             user.WalletSize = user.WalletSize + value;
+            _context.SaveChanges();
+
+            ApplicationUserPromoCodeModel model = new ApplicationUserPromoCodeModel();
+            model.UserId = userId;
+            model.PromoCodeId = codeId;
+            _context.ApplicationUserPromoCodeModels.Add(model);
             _context.SaveChanges();
             
         }
