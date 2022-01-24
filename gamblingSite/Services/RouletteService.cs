@@ -39,7 +39,8 @@ namespace gamblingSite.Services
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer = new Timer(RouletteOperations, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+            //_timer = new Timer(RouletteOperations, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+            _timer = new Timer(RouletteOperations, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
             return Task.CompletedTask;
         }
 
@@ -173,7 +174,8 @@ namespace gamblingSite.Services
             {
                 var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
                 RouletteModel item = new RouletteModel();
-                item.SpinDate = DateTime.Now.AddMinutes(1);
+                //item.SpinDate = DateTime.Now.AddMinutes(1);
+                item.SpinDate = DateTime.Now.AddSeconds(30);
                 item.Colour = null;
                 dBContext.RouletteModels.Add(item);
                 dBContext.SaveChanges();
