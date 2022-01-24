@@ -7,7 +7,29 @@
 }
 
 <div class="container-fluid" id="my-main-roulette-container">
-    <div class="row">
+    <div class="row d-flex justify-content-center pt-2">
+        
+        <p class="my-text-light-color align-content-center"> Last Spins:</p>
+        @{
+            foreach (var item in Model.rouletteModels)
+            {
+                //@item.Colour;
+                if (@item.Colour == "red")
+                {
+                    <img class="my-last-spin-icon" src="~/icons/chip-red.png" />
+                }
+                else if (@item.Colour == "green")
+                {
+                    <img class="my-last-spin-icon" src="~/icons/chip-green.png" />
+                }
+                else if (@item.Colour == "black")
+                {
+                    <img class="my-last-spin-icon" src="~/icons/chip-black.png" />
+                }
+            }
+        }
+    </div>
+    <div class="row pt-2">
         <div class="mx-auto d-flex flex-row">
             <p class="my-timer my-text-light-color" id="text-before-timer">Next Spin in&nbsp;</p>
             <span id="timerLabel" runat="server" class="my-timer my-text-light-color">@timeSpan.Seconds</span>
@@ -16,20 +38,20 @@
         
     </div>
     
-    <form method="post" class="row container">
+    <form method="post" class="row container pt-2">
 
         <div class="row w-100 container">
-
-            <div class="col-8 container">
-                <input class="col-6 form-control-plaintext my-background-light-color my-text-light-color" id="stakeInput" placeholder="0" autocomplete="off" asp-for="applicationUserRouletteModel.Stake" />
+            
+            <div class="col-8 container d-flex flex-row">
+                <input class="col-2 form-control-plaintext my-background-light-color my-text-light-color" id="stakeInput" placeholder="0" autocomplete="off" asp-for="applicationUserRouletteModel.Stake" />
                 <span asp-validation-for="applicationUserRouletteModel.Stake" class="text-danger"></span>
-                <div class="col-6">
+                <div class="col-10">
                     @*//<button onclick="plusOneToStake()" id="plusOneToStakeBtn">+1</button>*@
-                    <a class="btn my-tesxt-light-color" onclick="addToStake(10)">+10</a>
-                    <a class="btn my-tesxt-light-color" onclick="addToStake(100)">+100</a>
-                    <a class="btn my-tesxt-light-color" onclick="addToStake(1000)">+1000</a>
-                    <a class="btn my-tesxt-light-color" onclick="multiplyStake(2)">x2</a>
-                    <a class="btn my-tesxt-light-color" onclick="maxStake()">Max</a>
+                    <a class="btn my-stake-button my-background-light-color my-text-light-color" onclick="addToStake(10)">+10</a>
+                    <a class="btn my-stake-button my-background-light-color my-text-light-color" onclick="addToStake(100)">+100</a>
+                    <a class="btn my-stake-button my-background-light-color my-text-light-color" onclick="addToStake(1000)">+1000</a>
+                    <a class="btn my-stake-button my-background-light-color my-text-light-color" onclick="multiplyStake(2)">x2</a>
+                    <a class="btn my-stake-button my-background-light-color my-text-light-color" onclick="maxStake()">Max</a>
 
                 </div>
             </div>
@@ -41,28 +63,63 @@
             
         </div>
 
-        <div class=" row w-100 container">
-            <div class="col-4 align-self-center">
-                <div class="container w-100 mx-1 d-flex flex-row">
+        <div class=" row w-100 container pt-5">
+            <div class="col-4 align-top container">
+                <div class="container w-100 d-flex flex-row">
                     <img class="my-chip-form-icon" src="~/icons/chip-red.png" />
-                    <button type="submit" name="red" value="red" class="w-100 btn-danger">Win x2</button>
+                    <button type="submit" name="red" value="red" class="w-100 btn btn-danger">Win x2</button>
                 </div>
+                <div class="mt-2 my-background-light-color col my-user-in-game-container-height">
+                    @{
+                        foreach (var item in Model.applicationUserRouletteModels)
+                        {
+                            if (item.Colour == "red")
+                            {
+                                <p class="my-text-light-color">@item.Stake.ToString("0.##")</p>
+                            }
+                        }
+                    }
+                </div>
+
             </div>
 
-            <div class="col-4 align-self-center">
-                <div class="container w-100 mx-1 d-flex flex-row">
+            <div class="col-4 align-top">
+                <div class="container w-100 d-flex flex-row">
                     <img class="my-chip-form-icon" src="~/icons/chip-green.png" />
-                    <button type="submit" name="green" value="green" class="w-100 btn-success">Win x7</button>
+                    <button type="submit" name="green" value="green" class="w-100 btn btn-success">Win x7</button>
+                </div>
+                <div class="mt-2 my-background-light-color col my-user-in-game-container-height">
+                    @{
+                        foreach (var item in Model.applicationUserRouletteModels)
+                        {
+                            if (item.Colour == "green")
+                            {
+                                <p class="my-text-light-color">@item.Stake.ToString("0.##")</p>
+                            }
+                        }
+                    }
                 </div>
 
             </div>
 
-            <div class="col-4 align-self-center">
-                <div class="container w-100 mx-1 d-flex flex-row">
+            <div class="col-4 align-top">
+                <div class="container w-100  d-flex flex-row">
                     <img class="my-chip-form-icon" src="~/icons/chip-black.png" />
-                    <button type="submit" name="black" value="black" class="w-100 btn-dark">Win x2</button>
+                    <button type="submit" name="black" value="black" class="w-100 btn btn-dark">Win x2</button>
+                </div>
+                <div class="mt-2 my-background-light-color col my-user-in-game-container-height">
+                    @{
+                        foreach (var item in Model.applicationUserRouletteModels)
+                        {
+                            if (item.Colour == "black")
+                            {
+                                <p class="my-text-light-color">@item.Stake.ToString("0.##")</p>
+                            }
+                        }
+                    }
                 </div>
             </div>
+            
         </div>
 
     </form>

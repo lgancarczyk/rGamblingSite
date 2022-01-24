@@ -67,5 +67,19 @@ namespace gamblingSite.Models
             user.WalletSize = newBalance;
             _context.SaveChanges();
         }
+
+        public IList<RouletteModel> FindLast20Colors()
+        {
+            return _context.RouletteModels.Where(x => x.Colour != null)
+                .OrderByDescending(x => x.SpinID)
+                .Take(20).ToList();
+        }
+
+        public IList<ApplicationUserRouletteModel> FindUsersInGame()
+        {
+            int gameId = FindLastRouletteId();
+            return _context.ApplicationUserRouletteModels.Where(x => x.SpinId == gameId).ToList();
+                
+        }
     }
 }

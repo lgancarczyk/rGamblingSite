@@ -9,5 +9,7 @@ namespace gamblingSite.Models
     {
         public ApplicationUserRouletteModel applicationUserRouletteModel { get; set; }
         public RouletteModel rouletteModel { get; set; }
+        public IList<RouletteModel> rouletteModels { get; set; }
+        public IList<ApplicationUserRouletteModel> applicationUserRouletteModels { get; set; }
     }
 }

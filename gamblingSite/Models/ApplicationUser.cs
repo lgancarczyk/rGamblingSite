@@ -12,6 +12,7 @@ namespace gamblingSite.Models
     {
         public decimal WalletSize {get; set;}
         public virtual ICollection<ApplicationUserRouletteModel> ApplicationUserRouletteModels { get; set; }
+        public ICollection<PromoCodeModel> promoCodeModels { get; set; }
 
     }
 }

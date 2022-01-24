@@ -26,8 +26,9 @@ namespace gamblingSite.Controllers
             //decimal balance = rRepository.GetUserBalance(GetUserId());
             //balance.ToString("0,##");
             ViewBag.Balance = rRepository.GetUserBalance(GetUserId()).ToString("0.##");
+            
             var rouletteViewModel = GetInfo();
-
+            
             return View(rouletteViewModel);
         }
 
@@ -80,6 +81,8 @@ namespace gamblingSite.Controllers
             int id = rRepository.FindLastRouletteId();
             RouletteModel item = rRepository.FindRoulette(id);
             rouletteViewModel.rouletteModel = item;
+            rouletteViewModel.rouletteModels = rRepository.FindLast20Colors();
+            rouletteViewModel.applicationUserRouletteModels = rRepository.FindUsersInGame();
             return rouletteViewModel;
         }
 
