@@ -96,8 +96,11 @@ body {
     margin-right: 10px;
 }
 .my-chip-balance-icon{
-    width:10px;
+    width:30px;
+    height: 30px;
 }
 .my-balance-text{
-    font-size: 1rem;
+    font-size: 1.3rem;
+    font-family: Arial;
+    font-weight: 600;
 }

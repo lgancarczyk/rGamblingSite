@@ -179,6 +179,29 @@ namespace gamblingSite.Services
                 dBContext.SaveChanges();
             }
         }
+        //public void ReturnPointsToUser() 
+        //{
+        //    _logger.LogInformation("Server Disposing!");
+        //    using (var scope = _scopeFactory.CreateScope())
+        //    {
+        //        var dBContext = scope.ServiceProvider.GetRequiredService<AppDBContext>();
+        //        var lastSpinId = GetLastRouletteId();
+
+        //        var lastRouletteUserList = dBContext.ApplicationUserRouletteModels.Where(x => x.SpinId == lastSpinId)
+        //            .Select(a => new ApplicationUserRouletteModel
+        //            {
+        //                UserId = a.UserId,
+        //                Stake = a.Stake,
+        //            }).ToList();
+        //        foreach (var item in lastRouletteUserList)
+        //        {
+        //            ApplicationUser user = dBContext.ApplicationUsers.FirstOrDefault(x => x.Id == item.UserId);
+
+        //            user.WalletSize = user.WalletSize + item.Stake;
+        //            dBContext.SaveChanges();
+        //        }
+        //    }
+        //}
 
         public void Dispose()
         {

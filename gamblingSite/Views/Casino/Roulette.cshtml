@@ -20,13 +20,22 @@
 
         <div class="row w-100 container">
 
-            <div class="col-8">
-                <input class="form-control-plaintext my-background-light-color" asp-for="applicationUserRouletteModel.Stake" />
+            <div class="col-8 container">
+                <input class="col-6 form-control-plaintext my-background-light-color my-text-light-color" id="stakeInput" placeholder="0" autocomplete="off" asp-for="applicationUserRouletteModel.Stake" />
                 <span asp-validation-for="applicationUserRouletteModel.Stake" class="text-danger"></span>
+                <div class="col-6">
+                    @*//<button onclick="plusOneToStake()" id="plusOneToStakeBtn">+1</button>*@
+                    <a class="btn my-tesxt-light-color" onclick="addToStake(10)">+10</a>
+                    <a class="btn my-tesxt-light-color" onclick="addToStake(100)">+100</a>
+                    <a class="btn my-tesxt-light-color" onclick="addToStake(1000)">+1000</a>
+                    <a class="btn my-tesxt-light-color" onclick="multiplyStake(2)">x2</a>
+                    <a class="btn my-tesxt-light-color" onclick="maxStake()">Max</a>
+
+                </div>
             </div>
             <div class="col-4 container d-flex flex-row-reverse">
                 <img class="my-chip-balance-icon" src="~/icons/chip-balance.png" />
-                <p class=".my-text-light-color my-balance-text">@ViewBag.Balance</p>
+                <p class="my-text-light-color my-balance-text">@ViewBag.Balance&nbsp;</p>
 
             </div>
             
@@ -64,15 +73,47 @@
 @section Scripts{
     <script type="text/javascript">
 
+        function addToStake(i) {
+
+            var value = document.getElementById('stakeInput').value;
+            if (value.length == 0) {
+                value = "0";
+                var decValue = (parseFloat(value) + i).toString();
+                document.getElementById('stakeInput').value = decValue;
+            }
+            else {
+                value = value.replace(",", ".");
+                var decValue = (parseFloat(value) + i).toString();
+                document.getElementById('stakeInput').value = decValue.replace(".", ",");
+            }
+        }
+
+        function multiplyStake(i) {
+            var value = document.getElementById('stakeInput').value;
+            if (value.length == 0) {
+                value = "0";
+                var decValue = (parseFloat(value) * i).toString();
+                document.getElementById('stakeInput').value = decValue;
+            }
+            else {
+                value = value.replace(",", ".");
+                var decValue = (parseFloat(value) * i).toString();
+                document.getElementById('stakeInput').value = decValue.replace(".", ",");
+            }
+        }
+        function maxStake() {
+            document.getElementById('stakeInput').value = @ViewBag.Balance;
+        }
+
         function countdown() {
             seconds = document.getElementById("timerLabel").innerHTML;
-            
+
             if (seconds > 0) {
                 document.getElementById("timerLabel").innerHTML = seconds - 1;
                 setTimeout("countdown()", 1000);
             }
             else {
-                
+
                 document.getElementById("timerLabel").innerHTML = "Starting";
                 hideTimerText();
                 setTimeout(reloadPage(), 2000);

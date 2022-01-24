@@ -23,7 +23,9 @@ namespace gamblingSite.Controllers
 
         public IActionResult Roulette()
         {
-            ViewBag.Balance = rRepository.GetUserBalance(GetUserId());
+            //decimal balance = rRepository.GetUserBalance(GetUserId());
+            //balance.ToString("0,##");
+            ViewBag.Balance = rRepository.GetUserBalance(GetUserId()).ToString("0.##");
             var rouletteViewModel = GetInfo();
 
             return View(rouletteViewModel);
