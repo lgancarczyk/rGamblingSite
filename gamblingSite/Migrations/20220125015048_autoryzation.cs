@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace gamblingSite.Migrations
 {
-    public partial class addedPromo : Migration
+    public partial class autoryzation : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

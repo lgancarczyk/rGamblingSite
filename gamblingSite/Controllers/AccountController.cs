@@ -84,7 +84,7 @@ namespace gamblingSite.Controllers
             {
                 var user = new ApplicationUser
                 {
-                    UserName = model.UserName,
+                    UserName = model.Email,
                     Email = model.Email
 
                 };
