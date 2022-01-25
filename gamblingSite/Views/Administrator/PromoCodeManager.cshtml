@@ -1,0 +1,41 @@
+﻿@model gamblingSite.Models.PromoCodeViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutAdministrator.cshtml";
+}
+
+<div class="col">
+    <a class="btn my-background-light-color my-text-light-color" asp-area="" asp-controller="Administrator" asp-action="AddPromoCode">AddPromoCode</a>
+    <div class="container col">
+        
+        <div class="row mt-2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="my-background-light-color my-text-light-color" scope="col">#</th>
+                        <th class="my-background-light-color my-text-light-color" scope="col"> PromoCode</th>
+                        <th class="my-background-light-color my-text-light-color" scope="col"> Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int counter = 1; }
+                    @foreach (var item in Model.PromoCodeModels)
+                    {
+                        <tr>
+                            <th class="my-background-light-color my-text-light-color" scope="col">@counter</th>
+                            <th class="my-background-light-color my-text-light-color"> @item.PromoCode</th>
+                            <th class="my-background-light-color my-text-light-color">@item.CodeValue</th>
+                        </tr>
+                        counter += 1;
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+            
+        
+        
+
+    </div>
+</div>

@@ -14,14 +14,20 @@ namespace gamblingSite.Models
             _context = context;
         }
 
-        public PromoCodeModel AddPromoCode(PromoCodeModel promoCodeModel)
+        public void AddPromoCode(PromoCodeModel promoCodeModel)
         {
-            throw new NotImplementedException();
+            _context.PromoCodeModels.Add(promoCodeModel);
+            _context.SaveChanges();
         }
 
         public RouletteModel AddRoulette(RouletteModel rouletteModel)
         {
             throw new NotImplementedException();
+        }
+
+        public IList<PromoCodeModel> FindAllPromoCodes()
+        {
+            return _context.PromoCodeModels.ToList();
         }
 
         public int FindPromoCodeId(string code)
@@ -34,6 +40,19 @@ namespace gamblingSite.Models
         {
             return _context.PromoCodeModels.Where(x => x.PromoCodeId == codeId)
                 .Select(x => x.CodeValue).FirstOrDefault();
+        }
+
+        public bool isCodeInDatabase(string code)
+        {
+            var cc = _context.PromoCodeModels.Where(x => x.PromoCode == code).FirstOrDefault();
+            if (cc is null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public bool isCodeUsed(string userId, int codeId)

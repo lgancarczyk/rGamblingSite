@@ -95,7 +95,7 @@ namespace gamblingSite.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    return RedirectToAction("index", "Home");
+                    return RedirectToAction("Roulette", "Casino");
                 }
 
                 foreach (var error in result.Errors)
@@ -125,7 +125,7 @@ namespace gamblingSite.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Roulette", "Casino");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");

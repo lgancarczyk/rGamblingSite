@@ -1,0 +1,31 @@
+﻿@model gamblingSite.Models.PromoCodeViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutAdministrator.cshtml";
+}
+
+<h1 class="my-text-light-color">Add New Promo Code</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label class="my-text-light-color" asp-for="PromoCode"></label>
+                <input asp-for="PromoCode" class="form-control" />
+                @if (ViewData["CodeError"] != null)
+                {
+                    <span class="text-danger">@ViewData["CodeError"]</span>
+                }
+                <span asp-validation-for="PromoCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="my-text-light-color" asp-for="CodeValue"></label>
+                <input asp-for="CodeValue" class="form-control" />
+                <span asp-validation-for="CodeValue" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn-primary">Add Code</button>
+        </form>
+
+    </div>
+</div>
