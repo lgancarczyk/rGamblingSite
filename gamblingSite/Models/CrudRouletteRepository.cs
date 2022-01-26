@@ -68,7 +68,7 @@ namespace gamblingSite.Models
             _context.SaveChanges();
         }
 
-        public IList<RouletteModel> FindLast20Colors()
+        public IList<RouletteModel> FindLastSpins(int number = 20)
         {
             return _context.RouletteModels.Where(x => x.Colour != null)
                 .OrderByDescending(x => x.SpinID)

@@ -81,7 +81,7 @@ namespace gamblingSite.Controllers
             int id = rRepository.FindLastRouletteId();
             RouletteModel item = rRepository.FindRoulette(id);
             rouletteViewModel.rouletteModel = item;
-            rouletteViewModel.rouletteModels = rRepository.FindLast20Colors();
+            rouletteViewModel.rouletteModels = rRepository.FindLastSpins(20);
             rouletteViewModel.applicationUserRouletteModels = rRepository.FindUsersInGame();
             return rouletteViewModel;
         }

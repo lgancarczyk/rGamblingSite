@@ -13,7 +13,7 @@ namespace gamblingSite.Models
         public void ReduceUserBalance(string userId, decimal stake);
         public void AddUserRoulette(string color, string userId, decimal stake, int spinId);
         int FindLastRouletteId();
-        IList<RouletteModel> FindLast20Colors();
+        IList<RouletteModel> FindLastSpins(int number);
         IList<ApplicationUserRouletteModel> FindUsersInGame();
 
     }

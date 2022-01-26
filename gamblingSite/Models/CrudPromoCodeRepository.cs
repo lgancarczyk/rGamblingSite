@@ -14,10 +14,11 @@ namespace gamblingSite.Models
             _context = context;
         }
 
-        public void AddPromoCode(PromoCodeModel promoCodeModel)
+        public PromoCodeModel AddPromoCode(PromoCodeModel promoCodeModel)
         {
-            _context.PromoCodeModels.Add(promoCodeModel);
+            var entity = _context.PromoCodeModels.Add(promoCodeModel).Entity;
             _context.SaveChanges();
+            return entity;
         }
 
         public RouletteModel AddRoulette(RouletteModel rouletteModel)

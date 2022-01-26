@@ -49,7 +49,7 @@ namespace gamblingSite.Controllers
             }
             else
             {
-                pRepository.AddPromoCode(model);
+                PromoCodeModel item = pRepository.AddPromoCode(model);
                 return RedirectToAction("PromoCodeManager", "Administrator");
             }
             

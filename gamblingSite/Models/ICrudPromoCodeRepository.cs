@@ -8,7 +8,7 @@ namespace gamblingSite.Models
     public interface ICrudPromoCodeRepository
     {
         RouletteModel AddRoulette(RouletteModel rouletteModel);
-        void AddPromoCode(PromoCodeModel promoCodeModel);
+        PromoCodeModel AddPromoCode(PromoCodeModel promoCodeModel);
         public bool isCodeUsed(string userId, int codeId);
         public bool isCodeValid(string code);
         public bool isCodeInDatabase(string code);
