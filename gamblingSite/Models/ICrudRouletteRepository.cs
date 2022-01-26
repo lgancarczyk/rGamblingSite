@@ -11,7 +11,7 @@ namespace gamblingSite.Models
         RouletteModel FindRoulette(int id);
         public decimal GetUserBalance(string id);
         public void ReduceUserBalance(string userId, decimal stake);
-        public void AddUserRoulette(string color, string userId, decimal stake, int spinId);
+        ApplicationUserRouletteModel AddUserRoulette(ApplicationUserRouletteModel applicationUserRouletteModel);
         int FindLastRouletteId();
         IList<RouletteModel> FindLastSpins(int number);
         IList<ApplicationUserRouletteModel> FindUsersInGame();

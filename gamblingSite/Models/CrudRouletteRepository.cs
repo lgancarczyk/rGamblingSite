@@ -38,18 +38,19 @@ namespace gamblingSite.Models
             return id;
         }
 
-        public void AddUserRoulette(string color, string userId, decimal stake, int spinId)
-        {
-            ApplicationUserRouletteModel item = new ApplicationUserRouletteModel();
-            item.Colour = color;
-            item.UserId = userId;
-            item.Stake = stake;
-            item.SpinId = spinId;
-            _context.ApplicationUserRouletteModels.Add(item);
-            _context.SaveChanges();
-            ReduceUserBalance(userId, stake);
+        //ApplicationUserRouletteModel AddUserRoulette(ApplicationUserRouletteModel model)
+        //{
+            
+        //    //item.Colour = color;
+        //    //item.UserId = userId;
+        //    //item.Stake = stake;
+        //    //item.SpinId = spinId;
+        //    var entity = _context.ApplicationUserRouletteModels.Add(model).Entity;
+        //    _context.SaveChanges();
+        //    ReduceUserBalance(model.UserId, model.Stake);
+        //    return entity;
 
-        }
+        //}
 
         public decimal GetUserBalance(string id)
         {
@@ -80,6 +81,14 @@ namespace gamblingSite.Models
             int gameId = FindLastRouletteId();
             return _context.ApplicationUserRouletteModels.Where(x => x.SpinId == gameId).ToList();
                 
+        }
+
+        ApplicationUserRouletteModel ICrudRouletteRepository.AddUserRoulette(ApplicationUserRouletteModel model)
+        {
+            var entity = _context.ApplicationUserRouletteModels.Add(model).Entity;
+            _context.SaveChanges();
+            ReduceUserBalance(model.UserId, model.Stake);
+            return entity;
         }
     }
 }

@@ -114,6 +114,42 @@ namespace gamblingSite.Controllers
             return BadRequest();
         }
 
+        [Route("GetMyBalance")]
+        [HttpGet]
+        [Authorize]
+        public ActionResult GetMyBalance() 
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return new CreatedResult("/api",$"Your balance: {rRepository.GetUserBalance(userId)}");
+        }
+
+
+        [Route("EnterRouletteGame")]
+        [HttpPost]
+        [Authorize]
+        public ActionResult EnterRouletteGame( ApplicationUserRouletteModel _model) 
+        {
+            if (ModelState.IsValid) 
+            {
+                ApplicationUserRouletteModel model = new ApplicationUserRouletteModel();
+
+                model.Colour = _model.Colour;
+                model.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                model.Stake = _model.Stake;
+                if (model.Stake > rRepository.GetUserBalance(model.UserId) || model.Stake <= 0)
+                {
+                    return BadRequest("Invalid Stake");
+                }
+                model.SpinId = rRepository.FindLastRouletteId();
+                rRepository.AddUserRoulette(model);
+                return new CreatedResult("/api", $"{model.Colour}: {model.Stake}");
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
 
         [Route("Register")]
         [HttpPost]

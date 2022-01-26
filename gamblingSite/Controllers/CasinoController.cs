@@ -37,35 +37,35 @@ namespace gamblingSite.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                ApplicationUserRouletteModel model = new ApplicationUserRouletteModel();
 
-                string color = null;
 
                 if (!string.IsNullOrEmpty(red))
                 {
-                    color = "red";
+                    model.Colour = "red";
                 }
                 if (!string.IsNullOrEmpty(green))
                 {
-                    color = "green";
+                    model.Colour = "green";
                 }
                 if (!string.IsNullOrEmpty(black))
                 {
-                    color = "black";
+                    model.Colour = "black";
                 }
                 
-                var userId = GetUserId();
-                var stake = item.applicationUserRouletteModel.Stake;
-                if (stake>rRepository.GetUserBalance(userId) || stake<=0)
+                model.UserId = GetUserId();
+                model.Stake = item.applicationUserRouletteModel.Stake;
+                if (model.Stake>rRepository.GetUserBalance(model.UserId) || model.Stake<=0)
                 {
                     return RedirectToAction("Roulette", "Casino");
                 }
-                var spinId = rRepository.FindLastRouletteId();
+                model.SpinId = rRepository.FindLastRouletteId();
 
 
-                rRepository.AddUserRoulette(color, userId, stake, spinId);
+                rRepository.AddUserRoulette(model);
 
-                System.Diagnostics.Debug.WriteLine(color);
-                System.Diagnostics.Debug.WriteLine(stake);
+                System.Diagnostics.Debug.WriteLine(model.Colour);
+                System.Diagnostics.Debug.WriteLine(model.Stake);
 
                 return RedirectToAction("Roulette", "Casino");
             }
