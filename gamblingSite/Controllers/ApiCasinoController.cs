@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace gamblingSite.Controllers
 {
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     [Route("Api")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public class ApiCasinoController : Controller
@@ -35,9 +36,10 @@ namespace gamblingSite.Controllers
 
 
 
-        [Authorize]
+        
         [Route("GetLastRouletteSpins")]
         [HttpGet]
+        [Authorize]
         public IList<RouletteModel> GetLastRouletteSpins(int number)
         {
             return rRepository.FindLastSpins(number);
@@ -52,6 +54,7 @@ namespace gamblingSite.Controllers
             return pRepository.FindAllPromoCodes();
         }
 
+
         [Route("AddPromoCode")]
         [HttpPost]
         [Authorize(Roles = "Administrator")]
@@ -59,8 +62,16 @@ namespace gamblingSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                PromoCodeModel model = pRepository.AddPromoCode(_model);
-                return new CreatedResult($"/api/{model.PromoCodeId}", model);
+                if (pRepository.isCodeInDatabase(_model.PromoCode))
+                {
+                    return BadRequest("Code Already Exists");
+                }
+                else
+                {
+                    PromoCodeModel model = pRepository.AddPromoCode(_model);
+                    return new CreatedResult($"/api/{model.PromoCodeId}", model);
+                }
+                
             }
             else
             {
@@ -68,6 +79,99 @@ namespace gamblingSite.Controllers
             }
 
         }
+
+        
+        [Route("UsePromoCode")]
+        [HttpPost]
+        [Authorize]
+        public ActionResult UsePromoCode([FromBody] PromoCodeModel _model) 
+        {
+            if (ModelState.IsValid)
+            {
+                int codeId = pRepository.FindPromoCodeId(_model.PromoCode);
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (pRepository.isCodeValid(_model.PromoCode))
+                {
+                    if (pRepository.isCodeUsed(userId, codeId))
+                    {
+                        return BadRequest("Invalid or used code");
+                    }
+                    else
+                    {
+                        pRepository.UsePromoCode(userId, codeId);
+                        return new CreatedResult($"/api", $"{_model.PromoCode} just has been used");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Invalid or used code");
+                }
+
+
+
+
+            }
+            return BadRequest();
+        }
+
+
+        [Route("Register")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email
+
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return new CreatedResult($"/api/{user.Email}", $"{user.Email} Registered and Logged In");
+                }
+
+            }
+            return BadRequest();
+        }
+
+
+        [Route("Login")]
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(user.Email, user.Password, user.RememberMe, false);
+
+                if (result.Succeeded)
+                {
+                    return new CreatedResult($"/api/{user.Email}",  $"{user.Email} logged In");
+                }
+
+            }
+            return BadRequest();
+        }
+
+
+        [Route("LogOut")]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            
+            await _signInManager.SignOutAsync();
+
+            return new CreatedResult($"/api/logged_out","Logged Out");
+        }
+
 
 
     }
