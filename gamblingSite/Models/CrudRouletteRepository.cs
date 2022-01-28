@@ -69,11 +69,11 @@ namespace gamblingSite.Models
             _context.SaveChanges();
         }
 
-        public IList<RouletteModel> FindLastSpins(int number = 20)
+        public IList<RouletteModel> FindLastSpins(int number)
         {
             return _context.RouletteModels.Where(x => x.Colour != null)
                 .OrderByDescending(x => x.SpinID)
-                .Take(20).ToList();
+                .Take(number).ToList();
         }
 
         public IList<ApplicationUserRouletteModel> FindUsersInGame()

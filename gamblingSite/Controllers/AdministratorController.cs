@@ -23,14 +23,24 @@ namespace gamblingSite.Controllers
             return View();
         }
 
-        public IActionResult PromoCodeManager() 
+        public IActionResult PromoCodeManager()
         {
             PromoCodeViewModel model = new PromoCodeViewModel();
             model.PromoCodeModels = pRepository.FindAllPromoCodes();
-            
+
 
             return View(model);
         }
+
+        //[HttpPost]
+        //public IActionResult PromoCodeManager(string code)
+        //{
+        //    System.Diagnostics.Debug.WriteLine(code);
+        //    pRepository.ChangeCodeStatus(code);
+
+
+        //    return RedirectToAction("PromoCodeManager", "Administrator");
+        //}
 
 
         public IActionResult AddPromoCode() 

@@ -33,11 +33,9 @@ namespace gamblingSite.Controllers
             this.pRepository = pRepository;
         }
 
-
-
-
         
-        [Route("GetLastRouletteSpins")]
+
+        [Route("GetLastRouletteSpins/{number}")]
         [HttpGet]
         [Authorize]
         public IList<RouletteModel> GetLastRouletteSpins(int number)

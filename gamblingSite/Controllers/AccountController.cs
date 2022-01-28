@@ -44,6 +44,7 @@ namespace gamblingSite.Controllers
             {
                 int codeId = _repository.FindPromoCodeId(model.PromoCode);
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //in if && _repository.isCodeActive(model.PromoCode)
                 if (_repository.isCodeValid(model.PromoCode))
                 {
                     if (_repository.isCodeUsed(userId, codeId))

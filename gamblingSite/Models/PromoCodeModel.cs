@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace gamblingSite.Models
         public int PromoCodeId { get; set; }
         public string PromoCode { get; set; }
         public decimal CodeValue { get; set; }
+        //[DefaultValue(true)]
+        //public bool IsCodeActive { get; set; }
         public ICollection<ApplicationUserPromoCodeModel> ApplicationUserPromoCodeModels { get; set; }
     }
 }

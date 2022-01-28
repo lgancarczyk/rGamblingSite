@@ -15,17 +15,37 @@
                         <th class="my-background-light-color my-text-light-color" scope="col">#</th>
                         <th class="my-background-light-color my-text-light-color" scope="col"> PromoCode</th>
                         <th class="my-background-light-color my-text-light-color" scope="col"> Value</th>
+                        @*<th class="my-background-light-color my-text-light-color" scope="col"> Status</th>
+                        <th class="my-background-light-color my-text-light-color" scope="col"> Change Status</th>*@
                     </tr>
                 </thead>
                 <tbody>
                     @{int counter = 1; }
                     @foreach (var item in Model.PromoCodeModels)
                     {
-                        <tr>
-                            <th class="my-background-light-color my-text-light-color" scope="col">@counter</th>
-                            <th class="my-background-light-color my-text-light-color"> @item.PromoCode</th>
-                            <th class="my-background-light-color my-text-light-color">@item.CodeValue</th>
-                        </tr>
+                    <tr>
+                        <th class="my-background-light-color my-text-light-color" scope="col">@counter</th>
+                        <th class="my-background-light-color my-text-light-color"> @item.PromoCode</th>
+                        <th class="my-background-light-color my-text-light-color">@item.CodeValue</th>
+                        <!--if (item.IsCodeActive == true)
+                            {
+                                <th class="my-background-light-color my-text-light-color">Active</th>
+                            }
+                            if (item.IsCodeActive == false)
+                            {
+                                <th class="my-background-light-color my-text-light-color">Disabled</th>
+                            }
+                            <th class="my-background-light-color my-text-light-color">
+                                <form method="post">-->
+                                                @*<button type="submit" name="@item.PromoCode" value="@item.PromoCode" class="btn btn-danger">Change Status</button>*@
+                                                <!--<input name="process" type="submit" id="process" value="item.PromoCode" />
+                                </form>
+
+                            </th>-->
+
+
+
+                    </tr>
                         counter += 1;
                     }
 

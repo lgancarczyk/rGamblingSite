@@ -10,8 +10,8 @@ using gamblingSite.Models;
 namespace gamblingSite.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20220125015048_autoryzation")]
-    partial class autoryzation
+    [Migration("20220128104804_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

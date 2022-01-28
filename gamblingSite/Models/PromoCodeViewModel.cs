@@ -9,6 +9,7 @@ namespace gamblingSite.Models
     {
         public string PromoCode { get; set; }
         public decimal CodeValue { get; set; }
+        public bool IsCodeActive { get; set; }
         public IList<PromoCodeModel> PromoCodeModels { get; set; }
 
     }

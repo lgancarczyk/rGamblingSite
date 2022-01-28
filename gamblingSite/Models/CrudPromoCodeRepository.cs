@@ -16,6 +16,7 @@ namespace gamblingSite.Models
 
         public PromoCodeModel AddPromoCode(PromoCodeModel promoCodeModel)
         {
+            //promoCodeModel.IsCodeActive = true;
             var entity = _context.PromoCodeModels.Add(promoCodeModel).Entity;
             _context.SaveChanges();
             return entity;
@@ -82,6 +83,21 @@ namespace gamblingSite.Models
             }
         }
 
+
+        
+        //public bool isCodeActive(string code)
+        //{
+        //    var item = _context.PromoCodeModels.Where(x => x.PromoCodeId == FindPromoCodeId(code)).FirstOrDefault();
+        //    if (item.IsCodeActive == true )
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+            
+        //}
         public void UsePromoCode(string userId, int codeId)
         {
             decimal value = FindPromoCodeValue(codeId);
@@ -96,5 +112,27 @@ namespace gamblingSite.Models
             _context.SaveChanges();
             
         }
+
+        //public void ChangeCodeStatus(string code)
+        //{
+        //    PromoCodeModel model = GetPromoCodeModel(code);
+        //    //System.Diagnostics.Debug.WriteLine(model.IsCodeActive);
+        //    if (model.IsCodeActive == true)
+        //    {
+        //        model.IsCodeActive = false;
+        //    }
+        //    else
+        //    {
+        //        model.IsCodeActive = true;
+        //    }
+        //    _context.SaveChanges();
+        //}
+        
+
+        //public PromoCodeModel GetPromoCodeModel(string promoCode)
+        //{
+        //    var entity = _context.PromoCodeModels.Where(x => x.PromoCode == promoCode).FirstOrDefault();
+        //    return entity;
+        //}
     }
 }

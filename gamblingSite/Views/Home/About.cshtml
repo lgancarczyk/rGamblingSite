@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "About Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4 my-text-light-color">About</h1>
+    <p class="my-text-light-color">Jest to moja strona (Łukasz Gancarczyk) na zaliczenie labolatoriów z programowania w ASP .net</p>
+    <br />
+    <p class="my-text-light-color">Jest możliwość wielokrotnego wejścia do jednej gry.</p>
+    <br />
+    <p class="my-text-light-color">Ustawione są standardowe szanse na wypadanie kolorów. (Szansa na zielone wynosi około 2,7%)</p>
+    <br />
+    <p class="my-text-light-color">
+        Każdy kod promocyjny można użyć raz na konto. Dodany jest teraz kod "free500",
+        który dodaje do konta 500 żetonów. Używamy je w zakładce PromoCode
+    </p>
+    <br />
+    <p class="my-text-light-color">
+        Aby dodać kod promocyjny, musimy zalogować się jako administrator,
+        wejść w zakładnę "Admin Page", tam w "Promo Code Manager", gdzie mamy wypisane wszytkie kody i możliwość dodania nowego.
+    </p>
+    <br />
+    <p class="my-text-light-color">
+        Strona posiada pełne API, żeby wejść wystarczy z panelu Ruletki wpisać /Api i dalsze polecenia:
+        <br />/api/GetAppPromoCodes - dla admina
+        <br />/api/GetLastRouletteSpins/20 - dla zalogowanych (ostatnia wartość(20), to zmienna i oznacza ile ostatnich spinów chcemy otrzymać)
+        <br />/api/GetMyBalance - zwraca balans zalogowanego użytkownika
+        <br />/api/AddPromoCode - dla admina, dodajemy kod promocyjny
+        <br />/api/Register - rejestracja nowych użytkowników
+        <br />/api/LogIn - logowanie użytkowników
+        <br />/api/LogOut - wylogowanie
+        <br />/api/UsePromoCode - użycie kodu promocyjnego
+        <br />/api/EnterRouletteGame - wejście do gry na określony kolor i stawkę
+    </p>
+    <br />
+    <h3 class="my-text-light-color">Dane logowania administratora: email: admin@gmail.com  hasło: Adm!n0</h3>
+    <br />>
+
+
+</div>
