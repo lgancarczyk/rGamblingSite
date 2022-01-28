@@ -24,20 +24,24 @@ Strona posiada pełne API, żeby wejść wystarczy z panelu Ruletki wpisać /Api
                                                             "PromoCode": "testapi500",
                                                             "CodeValue": 500
                                                             }
+                                                            
 /api/Register - rejestracja nowych użytkowników np.    {
                                                       "Email":"user@gmail.com" ,
                                                       "UserName": "testApiUser",
                                                       "Password":"Ci@stk0",
                                                       "ConfirmPassword":"Ci@stk0"
                                                        }
+                                                       
 /api/LogIn - logowanie użytkowników  np. {
                                         "Email":"user@gmail.com" ,
                                         "Password":"Ci@stk0"
                                          }
+                                         
 /api/LogOut - wylogowanie
 /api/UsePromoCode - użycie kodu promocyjnego np. {
                                                 "PromoCode":"testapi500"
                                                  }
+                                                 
 /api/EnterRouletteGame - wejście do gry na określony kolor i stawkę np. {
                                                                         "Colour": "black",
                                                                         "Stake": 10
