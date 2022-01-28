@@ -18,8 +18,11 @@ Aby dodać kod promocyjny, musimy zalogować się jako administrator, wejść w 
 Strona posiada pełne API, żeby wejść wystarczy z panelu Ruletki wpisać /Api i dalsze polecenia:
 
 /api/GetAppPromoCodes - dla admina, zwraca utworzone promocyjne
+
 /api/GetLastRouletteSpins/20 - dla zalogowanych (ostatnia wartość(20), to zmienna i oznacza ile ostatnich spinów chcemy otrzymać)
+
 /api/GetMyBalance - zwraca balans zalogowanego użytkownika
+
 /api/AddPromoCode - dla admina, dodajemy kod promocyjny np.{
                                                             "PromoCode": "testapi500",
                                                             "CodeValue": 500
@@ -38,6 +41,7 @@ Strona posiada pełne API, żeby wejść wystarczy z panelu Ruletki wpisać /Api
                                          }
                                          
 /api/LogOut - wylogowanie
+
 /api/UsePromoCode - użycie kodu promocyjnego np. {
                                                 "PromoCode":"testapi500"
                                                  }
